@@ -26,6 +26,11 @@ function file_exists(name)
    if f~=nil then io.close(f) return true else return false end
 end
 
+function version_choice(array, choice)
+    a = array
+    return a[choice]
+end
+
 function kill_player()
     death_pointer_address = {0x0, 0x10F9EE40}
     death_pointer_offset = 0x154
@@ -50,14 +55,18 @@ function character_selected_or_save_loaded()
 end
 
 function get_current_hp()
-     hp_pointer_address = {0x10F9F540, 0x10F9EE40}
-     hp_pointer_offset_1 = 0x118
-     hp_pointer_offset_2 = 0x398
-     hp_pointer_offset_3 = 0xA0
-     hp_pointer = GetPointer(max_hp_pointer_address[game_version], max_hp_pointer_offset_1)
-     hp_pointer = GetPointer(max_hp_pointer, max_hp_pointer_offset_2, true)
-     hp_pointer = GetPointer(max_hp_pointer, max_hp_pointer_offset_3, true)
-     return ReadShort(hp_pointer, true)
+    hp_pointer_address = {0x10F9F540, 0x10F9EE40}
+    if ReadInt(hp_pointer_address[game_version]) > 0 then
+        hp_pointer_offset_1 = 0x118
+        hp_pointer_offset_2 = 0x398
+        hp_pointer_offset_3 = 0xA0
+        hp_pointer = GetPointer(hp_pointer_address[game_version], hp_pointer_offset_1)
+        hp_pointer = GetPointer(hp_pointer, hp_pointer_offset_2, true)
+        hp_pointer = GetPointer(hp_pointer, hp_pointer_offset_3, true)
+        return ReadShort(hp_pointer, true)
+    else
+        return -1
+    end
 end
 
 function _OnInit()
@@ -105,7 +114,7 @@ function _OnFrame()
             current_hp = get_current_hp()
             if current_hp == 0 and last_hp > 0 then
                 ConsolePrint("Sending death")
-                ConsolePrint("Player's HP: " .. tostring(current_hp)
+                ConsolePrint("Player's HP: " .. tostring(current_hp))
                 ConsolePrint("Player's Last HP: " .. tostring(last_hp))
                 death_date = os.date("!%Y%m%d%H%M%S")
                 if not file_exists(client_communication_path .. "dlsend" .. tostring(death_date)) then

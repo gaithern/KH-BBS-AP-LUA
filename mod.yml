@@ -23,6 +23,10 @@ assets:
   method: copy
   source:
   - name: bbsAPKeybladeStats.lua
+- name: scripts/bbsAPHandleDeathlink.lua
+  method: copy
+  source:
+  - name: bbsAPHandleDeathlink.lua
 - name: remastered/Item/Tm2/it1f1b.tm2/-0.dds
   method: copy
   source:

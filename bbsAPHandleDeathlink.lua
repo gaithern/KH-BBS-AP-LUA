@@ -32,7 +32,7 @@ function version_choice(array, choice)
 end
 
 function kill_player()
-    death_pointer_address = {0x0, 0x10F9EE40}
+    death_pointer_address = {0x10F9F540, 0x10F9EE40}
     death_pointer_offset = 0x154
     if ReadInt(death_pointer_address[game_version]) ~= 0 then
         death_pointer = GetPointer(death_pointer_address[game_version], death_pointer_offset)

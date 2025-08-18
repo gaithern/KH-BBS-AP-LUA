@@ -7,6 +7,10 @@ assets:
   method: copy
   source:
   - name: bbsAPConnector.lua
+- name: scripts/bbsMaxLevelArena.lua
+  method: copy
+  source:
+  - name: bbsMaxLevelArena.lua
 - name: scripts/bbsAPEXPMultiplier.lua
   method: copy
   source:
